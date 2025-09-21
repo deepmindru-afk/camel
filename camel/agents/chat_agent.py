@@ -1103,10 +1103,11 @@ class ChatAgent(BaseAgent):
         self, system_message: Optional[Union[BaseMessage, str]] = None
     ) -> None:
         r"""Add or update the system message.
+
         Args:
             system_message (Optional[Union[BaseMessage, str]]):
                 Can be either a BaseMessage object or a string.
-                If a string is provided, it will be converted 
+                If a string is provided, it will be converted
                 into a BaseMessage object.
         """
         self._original_system_message = (
