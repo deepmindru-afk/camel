@@ -1105,9 +1105,9 @@ class ChatAgent(BaseAgent):
         r"""Add or update the system message.
         Args:
             system_message (Optional[Union[BaseMessage, str]]):
-                Can be either a BaseMessage object or a string. If a string is provided,
-                it will be converted into a BaseMessage object.
-
+                Can be either a BaseMessage object or a string.
+                If a string is provided, it will be converted 
+                into a BaseMessage object.
         """
         self._original_system_message = (
             BaseMessage.make_assistant_message(
