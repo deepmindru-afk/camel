@@ -1099,6 +1099,28 @@ class ChatAgent(BaseAgent):
                 )
             )
 
+    def add_or_update_system_message(
+        self, system_message: Optional[Union[BaseMessage, str]] = None
+    ) -> None:
+        r"""Add or update the system message.
+        Args:
+            system_message (Optional[Union[BaseMessage, str]]):
+                Can be either a BaseMessage object or a string. If a string is provided,
+                it will be converted into a BaseMessage object.
+
+        """
+        self._original_system_message = (
+            BaseMessage.make_assistant_message(
+                role_name="Assistant", content=system_message
+            )
+            if isinstance(system_message, str)
+            else system_message
+        )
+        self._system_message = (
+            self._generate_system_message_for_output_language()
+        )
+        self.init_messages()
+
     def record_message(self, message: BaseMessage) -> None:
         r"""Records the externally provided message into the agent memory as if
         it were an answer of the :obj:`ChatAgent` from the backend. Currently,
