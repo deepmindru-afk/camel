@@ -373,7 +373,7 @@ class ScoreBasedContextCreator(BaseContextCreator):
                 messages.
         """
         if not records:
-            return None, []
+            return [], []
 
         system_units = []
 
@@ -397,9 +397,6 @@ class ScoreBasedContextCreator(BaseContextCreator):
                 # system messages (assuming all system messages are at the
                 # beginning of the conversation)
                 break
-
-        if not system_units:
-            return None, []
 
         return system_units, []
 
