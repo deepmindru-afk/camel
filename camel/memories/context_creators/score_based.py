@@ -153,7 +153,7 @@ class ScoreBasedContextCreator(BaseContextCreator):
             sorted_units = sorted(
                 regular_units, key=self._conversation_sort_key
             )
-            return self._assemble_output(sorted_units, system_unit)
+            return self._assemble_output(sorted_units, system_units)
 
         # ======================
         # 6. Truncation Logic with Tool Call Awareness
@@ -179,7 +179,11 @@ class ScoreBasedContextCreator(BaseContextCreator):
 
         # In case system messages are the only messages in memory when sorted
         # units are empty, raise an error
-        if system_units and len(remaining_units) == 0 and len(records) > len(system_units):
+        if (
+            system_units
+            and len(remaining_units) == 0
+            and len(records) > len(system_units)
+        ):
             raise RuntimeError(
                 "System messages and current message exceed token limit ",
                 total_tokens,
@@ -370,16 +374,18 @@ class ScoreBasedContextCreator(BaseContextCreator):
         """
         if not records:
             return None, []
-        
+
         system_units = []
 
         for idx, record in enumerate(records):
             if (
-                record.memory_record.role_at_backend 
+                record.memory_record.role_at_backend
                 == OpenAIBackendRole.SYSTEM
             ):
                 message = record.memory_record.to_openai_message()
-                tokens = self.token_counter.count_tokens_from_messages([message])
+                tokens = self.token_counter.count_tokens_from_messages(
+                    [message]
+                )
                 system_unit = _ContextUnit(
                     idx=idx,
                     record=record,
@@ -387,8 +393,8 @@ class ScoreBasedContextCreator(BaseContextCreator):
                 )
                 system_units.append(system_unit)
             else:
-                # Once a non-system message is encountered, stop looking for 
-                # system messages (assuming all system messages are at the 
+                # Once a non-system message is encountered, stop looking for
+                # system messages (assuming all system messages are at the
                 # beginning of the conversation)
                 break
 

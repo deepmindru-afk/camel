@@ -481,7 +481,7 @@ class ChatAgent(BaseAgent):
         # Set up system message and initialize messages
         self._original_system_message = (
             BaseMessage.make_system_message(
-                role_name="system", content=system_message
+                role_name="System", content=system_message
             )
             if isinstance(system_message, str)
             else system_message
@@ -1076,8 +1076,8 @@ class ChatAgent(BaseAgent):
             content = self._original_system_message.content + language_prompt
             return self._original_system_message.create_new_instance(content)
         else:
-            return BaseMessage.make_assistant_message(
-                role_name="Assistant",
+            return BaseMessage.make_system_message(
+                role_name="System",
                 content=language_prompt,
             )
 
@@ -1111,8 +1111,8 @@ class ChatAgent(BaseAgent):
                 into a BaseMessage object.
         """
         self._original_system_message = (
-            BaseMessage.make_assistant_message(
-                role_name="Assistant", content=system_message
+            BaseMessage.make_system_message(
+                role_name="System", content=system_message
             )
             if isinstance(system_message, str)
             else system_message
