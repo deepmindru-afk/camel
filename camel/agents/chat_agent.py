@@ -480,8 +480,8 @@ class ChatAgent(BaseAgent):
 
         # Set up system message and initialize messages
         self._original_system_message = (
-            BaseMessage.make_assistant_message(
-                role_name="Assistant", content=system_message
+            BaseMessage.make_system_message(
+                role_name="system", content=system_message
             )
             if isinstance(system_message, str)
             else system_message
